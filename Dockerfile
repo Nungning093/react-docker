@@ -1,20 +1,20 @@
-# Use the official Node.js image
+# Use an official Node.js runtime as the base image
 FROM node:18
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY . /app
 
 # Install npm dependencies
-RUN npm install
+RUN npm ci
 
-# Copy the rest of the application code
-COPY . .
+#Build the React application
+RUN npm run build
 
-# Expose port 3000
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["npm", "start"]
+# Define the command to run the application
+CMD ["npx", "serve", "-s", "dist"]
